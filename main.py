@@ -14,7 +14,7 @@ load_dotenv()
 @client.event
 async def on_ready():
 
-  print('GoomPixel is running! Currently serving Goomble Holders')
+  print('GoomMeme is running! Currently serving Goomble Holders')
   await client.change_presence(activity=discord.Game(name="Goombles"))
   await client.tree.sync()
 
