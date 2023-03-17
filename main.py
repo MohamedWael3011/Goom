@@ -54,39 +54,39 @@ async def goomeme(interaction: discord.Interaction, *, url: str, meme: str):
       "<@{}> Please enter a valid url.".format(interaction.user.id),
       ephemeral=True)
     return
-  #try:
-  await interaction.response.defer(ephemeral=True)
-  GID, Traits = await client.loop.run_in_executor(None, GenerateImage, url)
-  if meme == "stonks":
-    await client.loop.run_in_executor(None, MoveGoomble, GID)
-  await client.loop.run_in_executor(None, GenerateMeme, GID, Traits, meme)
-  await asyncio.sleep(2)
-  if not os.path.exists("{}.png".format(GID)):
-    await interaction.followup.send(
-      "<@{}> Someone else just generated on same Goomble, please try again later."
-      .format(interaction.user.id))
-  else:
-    await interaction.user.send("{} Meme".format(meme),
+  try:
+    await interaction.response.defer(ephemeral=True)
+    GID, Traits = await client.loop.run_in_executor(None, GenerateImage, url)
+    if meme == "stonks":
+      await client.loop.run_in_executor(None, MoveGoomble, GID)
+    await client.loop.run_in_executor(None, GenerateMeme, GID, Traits, meme)
+    await asyncio.sleep(2)
+    if not os.path.exists("{}.png".format(GID)):
+      await interaction.followup.send(
+        "<@{}> Someone else just generated on same Goomble, please try again later."
+        .format(interaction.user.id))
+    else:
+      await interaction.user.send("{} Meme".format(meme),
                                   file=discord.File("{}.png".format(GID)))
-    os.remove("{}.png".format(GID))
-    await interaction.followup.send(
-      "<@{}> I have sent something sweet in your DMs.:candy:".format(
+      os.remove("{}.png".format(GID))
+      await interaction.followup.send(
+        "<@{}> I have sent something sweet in your DMs.:candy:".format(
           interaction.user.id))
 
     #Update the Database
-  file = open('GoombleMemesGenerated.json', 'r')
-  GoomblesDic = json.loads(file.read())
-  if GID not in GoomblesDic.keys():
-    GoomblesDic[GID] = 0
-  GoomblesDic[GID] += 1
-  file = open('GoombleMemesGenerated.json', 'w')
-  file.write(json.dumps(GoomblesDic))
-  #except Exception as e:
-   # await interaction.followup.send(
-    #  "Something went wrong, please report to Moka#9205. But first make sure that you are using the command properly which is `/goomeme <your Goomble jpg.store link> <meme name>` Available memes are: `gunball` and `stonks`.",
-     # ephemeral=True)
-    #MOKA = await client.fetch_user("368776198068895745")
-    #await MOKA.send(e)
+    file = open('GoombleMemesGenerated.json', 'r')
+    GoomblesDic = json.loads(file.read())
+    if GID not in GoomblesDic.keys():
+      GoomblesDic[GID] = 0
+    GoomblesDic[GID] += 1
+    file = open('GoombleMemesGenerated.json', 'w')
+    file.write(json.dumps(GoomblesDic))
+  except Exception as e:
+    await interaction.followup.send(
+      "Something went wrong, please report to Moka#9205. But first make sure that you are using the command properly which is `/goomeme <your Goomble jpg.store link> <meme name>` Available memes are: `gunball` and `stonks`.",
+      ephemeral=True)
+    MOKA = await client.fetch_user("368776198068895745")
+    await MOKA.send(e)
 
 
 @goomeme.error
