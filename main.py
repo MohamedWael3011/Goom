@@ -49,7 +49,7 @@ async def rename(interaction: discord.Interaction, name: str):
 @commands.check(holder)
 @app_commands.checks.cooldown(1, 20.0, key=lambda i: (i.user.id))
 async def goomeme(interaction: discord.Interaction, *, url: str, meme: str):
-  if not ("/www.jpg.store/asset/" in url):
+  if not ("pool.pm/" in url):
     await interaction.response.send_message(
       "<@{}> Please enter a valid url.".format(interaction.user.id),
       ephemeral=True)
