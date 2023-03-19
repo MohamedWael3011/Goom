@@ -29,14 +29,13 @@ def GetTraits(url): #['Goomble #2620', '', 'back / None', 'background / Banana',
         val = element.text
         if '/' in val:
             AttVal = val.split('/')
-            traits[AttVal[0]] = AttVal[1].lower()
+            traits[AttVal[0][:-1]] = AttVal[1][1:].lower()
     
     GoombleID = elements[0].text
         
     driver.quit()
     
     return traits,GoombleID
-
 
 
 
