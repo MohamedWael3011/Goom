@@ -19,7 +19,7 @@ Crops = {
 }
 #Background Back Flavor Clothes Eye Mouth Head  RHand LHand
 # Setting the Path for Layers
-def GenerateImage(url):  #Will need to add a new argument for choices when provided
+def GenerateImage(url,meme):  #Will need to add a new argument for choices when provided
     Traits,GoombleID = GetTraits(url)
     RenderingTraits = []
     BodyPath = "{}".format(Traits["body"])
@@ -35,6 +35,15 @@ def GenerateImage(url):  #Will need to add a new argument for choices when provi
 
     for layer in RenderingTraits:  #Without Background
       LayerImage = Image.open(layer)
+      if meme =="hand" and Traits["flavor"] in layer:
+        if Traits["body"] =="round":
+          img_mask = Image.open('maskR.png')
+          img_mask = img_mask.convert('L')
+          LayerImage.putalpha(img_mask)
+        else:
+          img_mask = Image.open('maskT.png')
+          img_mask = img_mask.convert('L')    
+          LayerImage.putalpha(img_mask)
       TransparentImage = Image.alpha_composite(TransparentImage,LayerImage)
     TransparentImage.save( GoombleID  +".png")
     return GoombleID,Traits
@@ -50,9 +59,10 @@ def GenerateMeme(GoombleID,Traits,meme):
       MemePath = "{}.png".format(meme)
   MemeTrait = Image.open(r"{}".format(MemePath))
   Goomble = Image.open(r"{}.png".format(GoombleID))
-  if meme =="gunball":
+  if meme =="gunball" or meme =="hand":
     Goomble = Goomble.crop((600, 600, 2850, 2850))
-  Goomble = Goomble.resize((2048,2048),resample=Image.NEAREST)
+ 
+  Goomble =Goomble.resize((2048,2048),resample=Image.NEAREST)
 
     
 
