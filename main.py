@@ -83,7 +83,7 @@ async def goomeme(interaction: discord.Interaction, *, url: str, meme: str):
     file.write(json.dumps(GoomblesDic))
   except Exception as e:
     await interaction.followup.send(
-      "Something went wrong, please report to Moka#9205. But first make sure that you are using the command properly which is `/goomeme <your Goomble jpg.store link> <meme name>` Available memes are: `gunball` and `stonks`.",
+      "Something went wrong, please report to Moka#9205. But first make sure that you are using the command properly which is `/goomeme <your Goomble pool.pm link> <meme name>` Available memes are: `gunball` `stonks` `hand`.",
       ephemeral=True)
     MOKA = await client.fetch_user("368776198068895745")
     await MOKA.send(e)
