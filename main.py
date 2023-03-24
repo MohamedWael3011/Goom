@@ -65,11 +65,11 @@ async def goomeme(interaction: discord.Interaction, *, url: str, meme: str):
     return
   try:
     await interaction.response.defer(ephemeral=True)
-    GID, Traits = await client.loop.run_in_executor(None, GenerateImage, url,meme)
     
     if meme == "all":
       for meme in MemeList:
           if meme == "stonks":
+            GID, Traits = await client.loop.run_in_executor(None, GenerateImage, url,meme)
             await client.loop.run_in_executor(None, MoveGoomble, GID)
           await client.loop.run_in_executor(None, GenerateMeme, GID, Traits, meme)
           await asyncio.sleep(2)
@@ -88,10 +88,9 @@ async def goomeme(interaction: discord.Interaction, *, url: str, meme: str):
             
               
           
-                
+    GID, Traits = await client.loop.run_in_executor(None, GenerateImage, url,meme)   
     if meme == "stonks":
       await client.loop.run_in_executor(None, MoveGoomble, GID)
-      
       
     await client.loop.run_in_executor(None, GenerateMeme, GID, Traits, meme)
     await asyncio.sleep(2)
@@ -102,7 +101,7 @@ async def goomeme(interaction: discord.Interaction, *, url: str, meme: str):
     else:
       await interaction.user.send("{} Meme".format(meme),
                                   file=discord.File("{}.png".format(GID)))
-      if os.exists(meme+GID+".png"):
+      if os.path.exists(meme+GID+".png"):
         os.remove(meme + GID + ".png")
       if os.path.exists(GID + ".png"):
         os.remove(GID+".png")
