@@ -68,8 +68,8 @@ async def goomeme(interaction: discord.Interaction, *, url: str, meme: str):
     
     if meme == "all":
       for meme in MemeList:
+          GID, Traits = await client.loop.run_in_executor(None, GenerateImage, url,meme)
           if meme == "stonks":
-            GID, Traits = await client.loop.run_in_executor(None, GenerateImage, url,meme)
             await client.loop.run_in_executor(None, MoveGoomble, GID)
           await client.loop.run_in_executor(None, GenerateMeme, GID, Traits, meme)
           await asyncio.sleep(2)
