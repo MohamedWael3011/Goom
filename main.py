@@ -77,7 +77,7 @@ async def goomeme(interaction: discord.Interaction, *, url: str, meme: str):
             await interaction.followup.send("<@{}> Someone else just generated on same Goomble, please try again later.".format(interaction.user.id))
           else:
             await interaction.user.send("{} Meme".format(meme),file=discord.File("{}.png".format(GID)))
-            if os.exists(meme+GID+".png"):
+            if os.path.exists(meme+GID+".png"):
               os.remove(meme + GID + ".png")
             if os.path.exists(GID + ".png"):
               os.remove(GID+".png")
