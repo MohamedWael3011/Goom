@@ -11,7 +11,14 @@ import json
 
 client = commands.Bot(command_prefix='.', intents=intents)
 load_dotenv()
+MemeList = ["hand", "gunball", "stonks"]
 
+def AllMeme():
+  s=""
+  for i in MemeList:
+    s+= "`"+i+"`"+" "
+  return s  
+    
 @client.event
 async def on_ready():
 
@@ -59,8 +66,33 @@ async def goomeme(interaction: discord.Interaction, *, url: str, meme: str):
   try:
     await interaction.response.defer(ephemeral=True)
     GID, Traits = await client.loop.run_in_executor(None, GenerateImage, url,meme)
+    
+    if meme == "all":
+      for meme in MemeList:
+          if meme == "stonks":
+            await client.loop.run_in_executor(None, MoveGoomble, GID)
+          await client.loop.run_in_executor(None, GenerateMeme, GID, Traits, meme)
+          await asyncio.sleep(2)
+          if not os.path.exists("{}.png".format(GID)):
+            await interaction.followup.send("<@{}> Someone else just generated on same Goomble, please try again later.".format(interaction.user.id))
+          else:
+            await interaction.user.send("{} Meme".format(meme),file=discord.File("{}.png".format(GID)))
+            if os.exists(meme+GID+".png"):
+              os.remove(meme + GID + ".png")
+            if os.path.exists(GID + ".png"):
+              os.remove(GID+".png")
+      await interaction.followup.send(
+        "<@{}> I have sent something sweet in your DMs.:candy:".format(
+          interaction.user.id))        
+
+            
+              
+          
+                
     if meme == "stonks":
       await client.loop.run_in_executor(None, MoveGoomble, GID)
+      
+      
     await client.loop.run_in_executor(None, GenerateMeme, GID, Traits, meme)
     await asyncio.sleep(2)
     if not os.path.exists("{}.png".format(GID)):
@@ -70,7 +102,10 @@ async def goomeme(interaction: discord.Interaction, *, url: str, meme: str):
     else:
       await interaction.user.send("{} Meme".format(meme),
                                   file=discord.File("{}.png".format(GID)))
-      os.remove("{}.png".format(GID))
+      if os.exists(meme+GID+".png"):
+        os.remove(meme + GID + ".png")
+      if os.path.exists(GID + ".png"):
+        os.remove(GID+".png")
       await interaction.followup.send(
         "<@{}> I have sent something sweet in your DMs.:candy:".format(
           interaction.user.id))
@@ -85,7 +120,7 @@ async def goomeme(interaction: discord.Interaction, *, url: str, meme: str):
     file.write(json.dumps(GoomblesDic))
   except Exception as e:
     await interaction.followup.send(
-      "Something went wrong, please report to Moka#9205. But first make sure that you are using the command properly which is `/goomeme <your Goomble pool.pm link> <meme name>` Available memes are: `gunball` `stonks` `hand`.",
+      "Something went wrong, please report to Moka#9205. But first make sure that you are using the command properly which is `/goomeme <your Goomble pool.pm link> <meme name>` Available memes are: {} and `all` will get you all available memes at once.".format(AllMeme()),
       ephemeral=True)
     MOKA = await client.fetch_user("368776198068895745")
     await MOKA.send("".join(traceback.format_exception_only(e)).strip())

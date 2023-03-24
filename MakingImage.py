@@ -1,81 +1,77 @@
 from scrapper import GetTraits
 import os
 from PIL import Image, ImageOps
-StronkX = 2800
-StronkY = 1200
-class Deformer():
+
+# Constants
+STRONK_X = 2800
+STRONK_Y = 1200
+SKIPPABLE_TRAITS_FOLDERS = ["0background", "7lefthand", "8righthand"]
+CROPS = {"guball": (600, 600, 2850, 2850)}
+
+class Deformer:
     def __init__(self, x, y):
-      self.x = x
-      self.y = y
-    def getmesh(self,img):
-        w,h = img.size
-        source_shape = (w-self.x,0, w-self.x,h-self.y, w,h-self.y,w,0)
-        target_rectange = (0,0,w,h)
-        return [(target_rectange,source_shape)]
+        self.x = x
+        self.y = y
 
-SkippableTraitsFolders = ["0background","7lefthand","8righthand"]
-Crops = {
-  "guball":(600, 600, 2850, 2850)
-}
-#Background Back Flavor Clothes Eye Mouth Head  RHand LHand
-# Setting the Path for Layers
-def GenerateImage(url,meme):  #Will need to add a new argument for choices when provided
-    Traits,GoombleID = GetTraits(url)
-    RenderingTraits = []
-    BodyPath = "{}".format(Traits["body"])
-    for att in sorted(os.listdir(BodyPath)):  # Getting the attributes in right order
-      if not (att in SkippableTraitsFolders) :
-          layer = os.path.join(BodyPath,att)
-          AttributeName = att[1:]  #Removing the sort number
-          if Traits[AttributeName] != 'none':
-              AttributePath = os.path.join(layer,Traits[AttributeName]+".png")
-              RenderingTraits.append(AttributePath)
+    def get_mesh(self, img):
+        w, h = img.size
+        source_shape = (w-self.x, 0, w-self.x, h-self.y, w, h-self.y, w, 0)
+        target_rectangle = (0, 0, w, h)
+        return [(target_rectangle, source_shape)]
 
-    TransparentImage = Image.new("RGBA", (4096,4096))
+def generate_image(url, meme):
+    traits, goomble_id = GetTraits(url)
+    rendering_traits = []
+    body_path = "{}".format(traits["body"])
+    for att in sorted(os.listdir(body_path)):
+        if att not in SKIPPABLE_TRAITS_FOLDERS:
+            if traits["clothes"] == "sour mummy onesie" and "mouth" in att:
+              continue
+            layer = os.path.join(body_path, att)
+            attribute_name = att[1:]  # Removing the sort number
+            if traits[attribute_name] != 'none':
+                attribute_path = os.path.join(layer, traits[attribute_name] + ".png")
+                rendering_traits.append(attribute_path)
 
-    for layer in RenderingTraits:  #Without Background
-      LayerImage = Image.open(layer)
-      if meme =="hand" and Traits["flavor"] in layer:
-        if Traits["body"] =="round":
-          img_mask = Image.open('maskR.png')
-          img_mask = img_mask.convert('L')
-          LayerImage.putalpha(img_mask)
-        else:
-          img_mask = Image.open('maskT.png')
-          img_mask = img_mask.convert('L')    
-          LayerImage.putalpha(img_mask)
-      TransparentImage = Image.alpha_composite(TransparentImage,LayerImage)
-    TransparentImage.save( GoombleID  +".png")
-    return GoombleID,Traits
+    transparent_image = Image.new("RGBA", (4096, 4096))
 
-def GenerateMeme(GoombleID,Traits,meme):
-    #Meme path
-  MemePath=""
-  if meme =="gunball":
-    if (Traits["body"] == "tall" and Traits["flavor"] == 'soda'):
-      Traits["flavor"] = "sodaT"
-    MemePath= "{}/{}.png".format(meme,Traits["flavor"])
-  else:
-      MemePath = "{}.png".format(meme)
-  MemeTrait = Image.open(r"{}".format(MemePath))
-  Goomble = Image.open(r"{}.png".format(GoombleID))
-  if meme =="gunball" or meme =="hand":
-    Goomble = Goomble.crop((600, 600, 2850, 2850))
- 
-  Goomble =Goomble.resize((2048,2048),resample=Image.NEAREST)
+    for layer in rendering_traits:  # Without Background
+        layer_image = Image.open(layer)
+        if meme == "hand" and traits["flavor"] in layer:
+            if traits["body"] == "round":
+                img_mask = Image.open('maskR.png').convert('L')
+            else:
+                img_mask = Image.open('maskT.png').convert('L')
+            layer_image.putalpha(img_mask)
+        transparent_image = Image.alpha_composite(transparent_image, layer_image)
 
-    
+    transparent_image.save(goomble_id + ".png")
+    return goomble_id, traits
 
-  if meme == "stonks":
-    Goomble = Image.alpha_composite(MemeTrait,Goomble)
-  else:
-    Goomble = Image.alpha_composite(Goomble,MemeTrait)
-  Goomble.save(GoombleID+".png")
+def generate_meme(goomble_id, traits, meme):
+    # Meme path
+    if meme == "gunball":
+        # Handling Soda flavor in tall and round as they have different colors
+        if traits["body"] == "tall" and traits["flavor"] == 'soda':
+            traits["flavor"] = "sodaT"
+        meme_path = "{}/{}.png".format(meme, traits["flavor"])
+    else:
+        meme_path = "{}.png".format(meme)
 
+    meme_trait = Image.open(meme_path)
+    goomble = Image.open("{}.png".format(goomble_id))
+    if meme == "gunball" or meme == "hand":
+        goomble = goomble.crop(CROPS[meme])
+    goomble = goomble.resize((2048, 2048), resample=Image.NEAREST)
 
-    
-def MoveGoomble(GoombleID):
-  im = Image.open(r"{}.png".format(GoombleID))
-  deform = ImageOps.deform(im,Deformer(StronkX,StronkY))
-  deform.save(GoombleID + ".png")
+    if meme == "stonks":
+        goomble = Image.alpha_composite(meme_trait, goomble)
+    else:
+        goomble = Image.alpha_composite(goomble, meme_trait)
 
+    goomble.save(meme + goomble_id + ".png")
+
+def move_goomble(goomble_id):
+    im = Image.open("{}.png".format(goomble_id))
+    deform = ImageOps.deform(im, Deformer(STRONK_X, STRONK_Y))
+    deform.save(goomble_id + ".png")
