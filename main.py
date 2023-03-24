@@ -117,6 +117,8 @@ async def goomeme(interaction: discord.Interaction, *, url: str, meme: str):
     GoomblesDic[GID] += 1
     file = open('GoombleMemesGenerated.json', 'w')
     file.write(json.dumps(GoomblesDic))
+  except IndexError:
+    await interaction.followup.send("Pool.pm didn't load properly, please try again.")
   except Exception as e:
     await interaction.followup.send(
       "Something went wrong, please report to Moka#9205. But first make sure that you are using the command properly which is `/goomeme <your Goomble pool.pm link> <meme name>` Available memes are: {} and `all` will get you all available memes at once.".format(AllMeme()),
