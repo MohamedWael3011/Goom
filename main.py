@@ -3,6 +3,7 @@ from discord import app_commands
 from discord.ext import commands
 from MakingImage import *
 import os, asyncio
+import traceback
 from dotenv import load_dotenv
 
 intents = discord.Intents.all()
@@ -33,6 +34,7 @@ async def holder(interaction: discord.Interaction):
       interaction.user.id),
     ephemeral=True)
   return False
+
 
 
 
@@ -86,7 +88,7 @@ async def goomeme(interaction: discord.Interaction, *, url: str, meme: str):
       "Something went wrong, please report to Moka#9205. But first make sure that you are using the command properly which is `/goomeme <your Goomble pool.pm link> <meme name>` Available memes are: `gunball` `stonks` `hand`.",
       ephemeral=True)
     MOKA = await client.fetch_user("368776198068895745")
-    await MOKA.send(e)
+    await MOKA.send("".join(traceback.format_exception_only(e)).strip())
 
 
 @goomeme.error
