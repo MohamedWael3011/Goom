@@ -69,7 +69,7 @@ async def goomeme(interaction: discord.Interaction, *, url: str, meme: str):
     if meme == "all":
       for meme in MemeList:
           if Traits["flavor"] in Legendaries:
-            await interaction.user.send("{} Meme".format(meme),file=discord.File("legendary/{}{}.png".format(meme,Traits["flavor"])))
+            await interaction.user.send("{} Meme".format(meme),file=discord.File("legendary/{} {}.png".format(meme,Traits["flavor"])))
           else:
               await client.loop.run_in_executor(None, GenerateImage, GID,Traits,meme)
               if meme == "stonks":
