@@ -65,7 +65,7 @@ async def goomeme(interaction: discord.Interaction, *, url: str, meme: str):
     return
   try:
     await interaction.response.defer(ephemeral=True)
-    GID,Traits = await client.loop.run_in_executor(None,GetTraits,url)
+    Traits,GID = await client.loop.run_in_executor(None,GetTraits,url)
     if meme == "all":
       for meme in MemeList:
           await client.loop.run_in_executor(None, GenerateImage, GID,Traits,meme)
