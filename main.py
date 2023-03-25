@@ -65,10 +65,10 @@ async def goomeme(interaction: discord.Interaction, *, url: str, meme: str):
     return
   try:
     await interaction.response.defer(ephemeral=True)
-    
+    GID,Traits = await client.loop.run_in_executor(None,GetTraits,url)
     if meme == "all":
       for meme in MemeList:
-          GID, Traits = await client.loop.run_in_executor(None, GenerateImage, url,meme)
+          await client.loop.run_in_executor(None, GenerateImage, GID,Traits,meme)
           if meme == "stonks":
             await client.loop.run_in_executor(None, MoveGoomble, GID)
           await client.loop.run_in_executor(None, GenerateMeme, GID, Traits, meme)
@@ -84,30 +84,27 @@ async def goomeme(interaction: discord.Interaction, *, url: str, meme: str):
       await interaction.followup.send(
         "<@{}> I have sent something sweet in your DMs.:candy:".format(
           interaction.user.id))        
-
-            
-              
+    else:    
+        await client.loop.run_in_executor(None, GenerateImage, GID,Traits,meme)   
+        if meme == "stonks":
+          await client.loop.run_in_executor(None, MoveGoomble, GID)
           
-    GID, Traits = await client.loop.run_in_executor(None, GenerateImage, url,meme)   
-    if meme == "stonks":
-      await client.loop.run_in_executor(None, MoveGoomble, GID)
-      
-    await client.loop.run_in_executor(None, GenerateMeme, GID, Traits, meme)
-    await asyncio.sleep(2)
-    if not os.path.exists("{}.png".format(GID)):
-      await interaction.followup.send(
-        "<@{}> Someone else just generated on same Goomble, please try again later."
-        .format(interaction.user.id))
-    else:
-      await interaction.user.send("{} Meme".format(meme),
-                                  file=discord.File("{}.png".format(GID)))
-      if os.path.exists(meme+GID+".png"):
-        os.remove(meme + GID + ".png")
-      if os.path.exists(GID + ".png"):
-        os.remove(GID+".png")
-      await interaction.followup.send(
-        "<@{}> I have sent something sweet in your DMs.:candy:".format(
-          interaction.user.id))
+        await client.loop.run_in_executor(None, GenerateMeme, GID, Traits, meme)
+        await asyncio.sleep(2)
+        if not os.path.exists("{}.png".format(GID)):
+          await interaction.followup.send(
+            "<@{}> Someone else just generated on same Goomble, please try again later."
+            .format(interaction.user.id))
+        else:
+          await interaction.user.send("{} Meme".format(meme),
+                                      file=discord.File("{}.png".format(GID)))
+          if os.path.exists(meme+GID+".png"):
+            os.remove(meme + GID + ".png")
+          if os.path.exists(GID + ".png"):
+            os.remove(GID+".png")
+          await interaction.followup.send(
+            "<@{}> I have sent something sweet in your DMs.:candy:".format(
+              interaction.user.id))
 
     #Update the Database
     file = open('GoombleMemesGenerated.json', 'r')
@@ -139,5 +136,4 @@ async def on_test_error(interaction: discord.Interaction,error: app_commands.App
 #   await interaction.response.send_message("Works!")
 
 client.run(os.getenv('TOKEN'))
-
 

@@ -19,8 +19,7 @@ Crops = {
 }
 #Background Back Flavor Clothes Eye Mouth Head  RHand LHand
 # Setting the Path for Layers
-def GenerateImage(url,meme):  #Will need to add a new argument for choices when provided
-    Traits,GoombleID = GetTraits(url)
+def GenerateImage(GoombleID,Traits,meme):  #Will need to add a new argument for choices when provided
     RenderingTraits = []
     BodyPath = "{}".format(Traits["body"])
     for att in sorted(os.listdir(BodyPath)):  # Getting the attributes in right order
@@ -80,4 +79,3 @@ def MoveGoomble(GoombleID):
   im = Image.open(r"{}.png".format(GoombleID))
   deform = ImageOps.deform(im,Deformer(StronkX,StronkY))
   deform.save(GoombleID + ".png")
-
