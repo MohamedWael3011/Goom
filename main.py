@@ -11,7 +11,7 @@ import json
 
 client = commands.Bot(command_prefix='.', intents=intents)
 load_dotenv()
-MemeList = ["hand", "gunball", "stonks"]
+MemeList = ["hand", "gunball", "stonks","Copium"]
 Legendaries = ["rarest goombles of all time", "kespin cone", "powdered peaks", "magic sugar forest", "cavity court", "caramel swamp"]
 def AllMeme():
   s=""
