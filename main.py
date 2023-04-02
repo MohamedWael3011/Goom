@@ -11,7 +11,7 @@ import json
 
 client = commands.Bot(command_prefix='.', intents=intents)
 load_dotenv()
-MemeList = ["hand", "gunball", "stonks","Copium"]
+MemeList = ["hand", "gunball", "stonks","copium"]
 Legendaries = ["rarest goombles of all time", "kespin cone", "powdered peaks", "magic sugar forest", "cavity court", "caramel swamp"]
 def AllMeme():
   s=""
@@ -58,6 +58,7 @@ async def rename(interaction: discord.Interaction, name: str):
 @commands.check(holder)
 @app_commands.checks.cooldown(1, 20.0, key=lambda i: (i.user.id))
 async def goomeme(interaction: discord.Interaction, *, url: str, meme: str):
+  meme = meme.lower()
   if not ("pool.pm/" in url):
     await interaction.response.send_message(
       "<@{}> Please enter a valid url.".format(interaction.user.id),
