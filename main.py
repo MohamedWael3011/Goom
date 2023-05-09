@@ -5,6 +5,7 @@ from MakingImage import *
 import os, asyncio
 import traceback
 from dotenv import load_dotenv
+from discord.app_commands import Choice
 
 intents = discord.Intents.all()
 import json
@@ -44,9 +45,20 @@ async def holder(interaction: discord.Interaction):
 
 
 @client.tree.command(name="wallpaper", description="Generates a wallpaper with your Goomble!")
+@app_commands.choices(
+  colour=[ # param name
+    Choice(name="Indian Red", value="#E05C5C"),
+    Choice(name="Yellow Green", value="#BEE18D"),
+    Choice(name="Lemon Yellow", value="#FEF9A8"),
+    Choice(name="Melon", value="#FFA49F"),
+    Choice(name="Baby Blue Eyes", value="#9CC4FE"),
+    Choice(name="Maxiumum Blue", value="#B3A1FB"),
+    Choice(name="Raiah", value="#FFB461"),
+  ]
+)
 @commands.check(holder)
 @app_commands.checks.cooldown(1, 20.0, key=lambda i: (i.user.id))
-async def wallpaper(interaction: discord.Interaction, *, url: str, color: str):
+async def wallpaper(interaction: discord.Interaction, *, url: str, color: Choice[str]):
     if not ("pool.pm/" in url):
       await interaction.response.send_message(
         "<@{}> Please enter a valid url.".format(interaction.user.id),
@@ -58,7 +70,7 @@ async def wallpaper(interaction: discord.Interaction, *, url: str, color: str):
       Traits,GID = await client.loop.run_in_executor(None,GetTraits,url)
       if Traits["flavor"] in Legendaries:
         name = Traits["flavor"]
-        await client.loop.run_in_executor(None, GenerateWallpaperLegendary, Traits["flavor"],color)
+        await client.loop.run_in_executor(None, GenerateWallpaperLegendary, Traits["flavor"],color.value)
         await asyncio.sleep(2)
         await interaction.user.send("Wallpaper",file=discord.File(f"{name}Wallpaper.png"))
         if os.path.exists(f"{name}Wallpaper.png"):
@@ -186,9 +198,7 @@ async def on_test_error(interaction: discord.Interaction,error: app_commands.App
 
 
   
-# @client.tree.command(name="test",description="trying slash")
-# async def test(interaction: discord.Interaction):
-#   await interaction.response.send_message("Works!")
+
 
 client.run(os.getenv('TOKEN'))
 
