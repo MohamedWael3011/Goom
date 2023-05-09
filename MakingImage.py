@@ -84,6 +84,7 @@ def MoveGoomble(GoombleID):
 
 def GenerateWallpaper(GoombleID,color):
     Goomble = Image.open(r"{}.png".format(GoombleID))
+    print("Opened")
     Goomble = Goomble.resize((834, 834), resample=Image.NEAREST)
     alpha_mask = Goomble.convert('RGBA').split()[-1]
     Wallpaper = Image.new('RGBA', (1080, 1920), color)
@@ -91,5 +92,5 @@ def GenerateWallpaper(GoombleID,color):
     Draw = ImageDraw.Draw(Wallpaper)
     Draw.text((179, 600), "Today is a good day.", (0, 0, 0), font=Font)
     Wallpaper.paste(Goomble, (123, 741), mask=alpha_mask)
-    Wallpaper.save(f"{GoombleID}.png")
+    Wallpaper.save(f"{GoombleID}Wallpaper.png")
     

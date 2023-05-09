@@ -55,7 +55,10 @@ async def wallpaper(interaction: discord.Interaction, *, url: str, color: str):
       Traits,GID = await client.loop.run_in_executor(None,GetTraits,url)
       await client.loop.run_in_executor(None, GenerateImage, GID,Traits,'normal')
       await client.loop.run_in_executor(None, GenerateWallpaper, GID,color)
-      await interaction.user.send("Wallpaper",file=discord.File(f"{GID}.png"))
+      await asyncio.sleep(2)
+      await interaction.user.send("Wallpaper",file=discord.File(f"{GID}Wallpaper.png"))
+      if os.path.exists(f"{GID}Wallpaper.png"):
+        os.remove(f"{GID}Wallpaper.png")
       if os.path.exists(GID + ".png"):
         os.remove(GID+".png")
       await interaction.followup.send("<@{}> I have some sweets in your DMs.:candy:".format(interaction.user.id))        
