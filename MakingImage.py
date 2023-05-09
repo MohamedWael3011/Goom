@@ -13,7 +13,7 @@ class Deformer():
         target_rectange = (0,0,w,h)
         return [(target_rectange,source_shape)]
 
-SkippableTraitsFolders = ["0background","7lefthand","8righthand"]
+SkippableTraitsFolders = ["0background","7left hand","8right hand"]
 Crops = {
   "guball":(600, 600, 2850, 2850)
 }
@@ -112,7 +112,7 @@ def GenerateWallpaperLegendary(Legendary,color):
     Wallpaper = Image.new('RGBA', (1080, 1920), color)
     Font = ImageFont.truetype('BubbleboddyNeue-ExtraBold Trial.ttf', 80)
     Draw = ImageDraw.Draw(Wallpaper)
-    Draw.text((180, 734), "Today is a good day.", (0, 0, 0), font=Font)
+    Draw.text((190, 734), "Today is a good day.", (0, 0, 0), font=Font)
     Wallpaper.paste(Goomble, (211, 928), mask=alpha_mask)
     Wallpaper.save(f"{Legendary}Wallpaper.png")
     
