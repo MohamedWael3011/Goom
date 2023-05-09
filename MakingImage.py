@@ -93,3 +93,14 @@ def GenerateWallpaper(GoombleID,color):
     Wallpaper.paste(Goomble, (209, 928), mask=alpha_mask)
     Wallpaper.save(f"{GoombleID}Wallpaper.png")
     
+def GenerateWallpaperLegendary(Legendary,color):
+    Goomble = Image.open(r"{}.png".format(Legendary))
+    Goomble = Goomble.resize((662, 662), resample=Image.NEAREST)
+    alpha_mask = Goomble.convert('RGBA').split()[-1]
+    Wallpaper = Image.new('RGBA', (1080, 1920), color)
+    Font = ImageFont.truetype('BubbleboddyNeue-ExtraBold Trial.ttf', 80)
+    Draw = ImageDraw.Draw(Wallpaper)
+    Draw.text((180, 734), "Today is a good day.", (0, 0, 0), font=Font)
+    Wallpaper.paste(Goomble, (209, 928), mask=alpha_mask)
+    Wallpaper.save(f"{Legendary}Wallpaper.png")
+    
