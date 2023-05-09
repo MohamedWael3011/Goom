@@ -79,7 +79,7 @@ async def wallpaper(interaction: discord.Interaction, *, url: str, color: Choice
         
       else:
         await client.loop.run_in_executor(None, GenerateImage, GID,Traits,'normal')
-        await client.loop.run_in_executor(None, GenerateWallpaper, GID,color)
+        await client.loop.run_in_executor(None, GenerateWallpaper, GID,color.value)
         await asyncio.sleep(2)
         await interaction.user.send("Wallpaper",file=discord.File(f"{GID}Wallpaper.png"))
         if os.path.exists(f"{GID}Wallpaper.png"):
