@@ -84,7 +84,6 @@ def MoveGoomble(GoombleID):
 
 def GenerateWallpaper(GoombleID,color):
     Goomble = Image.open(r"{}.png".format(GoombleID))
-    print("Opened")
     Goomble = Goomble.resize((834, 834), resample=Image.NEAREST)
     alpha_mask = Goomble.convert('RGBA').split()[-1]
     Wallpaper = Image.new('RGBA', (1080, 1920), color)
