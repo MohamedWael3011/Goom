@@ -101,8 +101,8 @@ def GenerateWallpaper(GoombleID,color):
     Wallpaper = Image.new('RGBA', (1080, 1920), color)
     Font = ImageFont.truetype('BubbleboddyNeue-ExtraBold Trial.ttf', 70)
     Draw = ImageDraw.Draw(Wallpaper)
-    Draw.text((217, 1097), "Today is a good day.", (0, 0, 0), font=Font)
-    Wallpaper.paste(Goomble, (272, 598), mask=alpha_mask)
+    Draw.text((217, 1244), "Today is a good day.", (0, 0, 0), font=Font)
+    Wallpaper.paste(Goomble, (272, 782), mask=alpha_mask)
     Wallpaper.save(f"{GoombleID}Wallpaper.png")
     
 def GenerateWallpaperLegendary(Legendary,color):
@@ -112,7 +112,7 @@ def GenerateWallpaperLegendary(Legendary,color):
     Wallpaper = Image.new('RGBA', (1080, 1920), color)
     Font = ImageFont.truetype('BubbleboddyNeue-ExtraBold Trial.ttf', 70)
     Draw = ImageDraw.Draw(Wallpaper)
-    Draw.text((217, 1097), "Today is a good day.", (0, 0, 0), font=Font)
-    Wallpaper.paste(Goomble, (272, 598), mask=alpha_mask)
+    Draw.text((217, 1244), "Today is a good day.", (0, 0, 0), font=Font)
+    Wallpaper.paste(Goomble, (272, 782), mask=alpha_mask)
     Wallpaper.save(f"{Legendary}Wallpaper.png")
     
