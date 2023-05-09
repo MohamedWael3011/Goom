@@ -44,6 +44,8 @@ async def holder(interaction: discord.Interaction):
 
 
 @client.tree.command(name="wallpaper", description="Generates a wallpaper with your Goomble!")
+@commands.check(holder)
+@app_commands.checks.cooldown(1, 20.0, key=lambda i: (i.user.id))
 async def wallpaper(interaction: discord.Interaction, *, url: str, color: str):
     if not ("pool.pm/" in url):
       await interaction.response.send_message(
@@ -65,6 +67,9 @@ async def wallpaper(interaction: discord.Interaction, *, url: str, color: str):
       
     except IndexError:
       await interaction.followup.send("Pool.pm didn't load properly, please try again.",ephemeral=True)
+    except ValueError:
+      await interaction.followup.send("Please enter a valid color.",ephemeral=True)
+      
     except Exception as e:
           await interaction.followup.send("Something went wrong, please report to Moka#9205. But first make sure that you are using the command properly which is `/wallpaper <your Goomble pool.pm link> <color or #HexaValue>`.",ephemeral=True)
           MOKA = await client.fetch_user("368776198068895745")
