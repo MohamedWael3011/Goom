@@ -184,7 +184,16 @@ async def on_test_error(interaction: discord.Interaction,error: app_commands.App
       error.retry_after),ephemeral=True)
 
 
+@client.tree.command(name="test",
+                     description="Turning your Goomble to a meme.")
+@client.tree.command.choices(colors=[
+  discord.app_commands.Choice(name="test",value=1),
+  discord.app_commands.Choice(name="test1",value=2)
+])
 
+async def test(interaction: discord.Interaction, *, url: str, colors:discord.app_commands.Choice[int]):
+  await  interaction.response.send_message(colors.name)
+  
 # @client.tree.command(name="test",description="trying slash")
 # async def test(interaction: discord.Interaction):
 #   await interaction.response.send_message("Works!")
