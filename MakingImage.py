@@ -79,3 +79,18 @@ def MoveGoomble(GoombleID):
   im = Image.open(r"{}.png".format(GoombleID))
   deform = ImageOps.deform(im,Deformer(StronkX,StronkY))
   deform.save(GoombleID + ".png")
+  
+from PIL import Image, ImageOps, ImageDraw, ImageFont
+
+
+def GenerateWallpaper(GoombleID,color):
+    Goomble = Image.open(r"{}.png".format(GoombleID))
+    Goomble = Goomble.resize((834, 834), resample=Image.NEAREST)
+    alpha_mask = Goomble.convert('RGBA').split()[-1]
+    Wallpaper = Image.new('RGBA', (1080, 1920), color)
+    Font = ImageFont.truetype('BubbleboddyNeue-ExtraBold Trial.ttf', 80)
+    Draw = ImageDraw.Draw(Wallpaper)
+    Draw.text((179, 600), "Today is a good day.", (0, 0, 0), font=Font)
+    Wallpaper.paste(Goomble, (123, 741), mask=alpha_mask)
+    Wallpaper.save(f"{GoombleID}Wallpaper.png")
+    
