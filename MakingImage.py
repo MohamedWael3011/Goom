@@ -22,15 +22,27 @@ Crops = {
 def GenerateImage(GoombleID,Traits,meme):  #Will need to add a new argument for choices when provided
     RenderingTraits = []
     BodyPath = "{}".format(Traits["body"])
-    for att in sorted(os.listdir(BodyPath)):  # Getting the attributes in right order
-      if not (att in SkippableTraitsFolders) :
+    if meme =='normal':
+      for att in sorted(os.listdir(BodyPath)):
+        if att != "0background":
           if Traits["clothes"] == "sour mummy onesie" and "mouth" in att:
               continue
           layer = os.path.join(BodyPath,att)
           AttributeName = att[1:]  #Removing the sort number
           if Traits[AttributeName] != 'none':
               AttributePath = os.path.join(layer,Traits[AttributeName]+".png")
-              RenderingTraits.append(AttributePath)
+              RenderingTraits.append(AttributePath)    
+                  
+    else:   
+      for att in sorted(os.listdir(BodyPath)):  # Getting the attributes in right order
+        if not (att in SkippableTraitsFolders) :
+            if Traits["clothes"] == "sour mummy onesie" and "mouth" in att:
+                continue
+            layer = os.path.join(BodyPath,att)
+            AttributeName = att[1:]  #Removing the sort number
+            if Traits[AttributeName] != 'none':
+                AttributePath = os.path.join(layer,Traits[AttributeName]+".png")
+                RenderingTraits.append(AttributePath)
 
     TransparentImage = Image.new("RGBA", (4096,4096))
 
@@ -101,6 +113,6 @@ def GenerateWallpaperLegendary(Legendary,color):
     Font = ImageFont.truetype('BubbleboddyNeue-ExtraBold Trial.ttf', 80)
     Draw = ImageDraw.Draw(Wallpaper)
     Draw.text((180, 734), "Today is a good day.", (0, 0, 0), font=Font)
-    Wallpaper.paste(Goomble, (209, 928), mask=alpha_mask)
+    Wallpaper.paste(Goomble, (211, 928), mask=alpha_mask)
     Wallpaper.save(f"{Legendary}Wallpaper.png")
     
