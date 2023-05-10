@@ -13,6 +13,7 @@ import json
 client = commands.Bot(command_prefix='.', intents=intents)
 load_dotenv()
 MemeList = ["hand", "gunball", "stonks","copium"]
+WallpaperAddSpaceTraits = ["overgrown", "streamer", "giga beard","dragon","soda pipes"]
 Legendaries = ["rarest goombles of all time", "kespin cone", "powdered peaks", "magic sugar forest", "cavity court", "caramel swamp"]
 def AllMeme():
   s=""
@@ -68,9 +69,13 @@ async def wallpaper(interaction: discord.Interaction, *, url: str, color: Choice
       await interaction.response.defer(ephemeral=True)
       
       Traits,GID = await client.loop.run_in_executor(None,GetTraits,url)
+      flag = False
+      for trait in Traits.values():
+        if trait in WallpaperAddSpaceTraits:
+          flag = True
       if Traits["flavor"] in Legendaries:
         name = Traits["flavor"]
-        await client.loop.run_in_executor(None, GenerateWallpaperLegendary, Traits["flavor"],color.value)
+        await client.loop.run_in_executor(None, GenerateWallpaperLegendary, Traits["flavor"],color.value,flag)
         await asyncio.sleep(2)
         await interaction.user.send("Wallpaper",file=discord.File(f"{name}Wallpaper.png"))
         if os.path.exists(f"{name}Wallpaper.png"):

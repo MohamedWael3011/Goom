@@ -3,6 +3,8 @@ import os
 from PIL import Image, ImageOps,ImageDraw,ImageFont
 StronkX = 2800
 StronkY = 1200
+WallpaperX = 1676
+WallpaperY = 4074
 class Deformer():
     def __init__(self, x, y):
       self.x = x
@@ -94,7 +96,7 @@ def MoveGoomble(GoombleID):
   
 
 
-def GenerateWallpaper(GoombleID,color):
+def GenerateWallpaper(GoombleID,color,flag):
     Goomble = Image.open(r"{}.png".format(GoombleID))
     Goomble =Goomble.resize((2048,2048),resample=Image.NEAREST)
     alpha_mask = Goomble.convert('RGBA').split()[-1]
@@ -102,16 +104,20 @@ def GenerateWallpaper(GoombleID,color):
     Font = ImageFont.truetype('BubbleboddyNeue-ExtraBold Trial.ttf', 350)
     Draw = ImageDraw.Draw(Wallpaper)
     Draw.text((1084, 5824), "Today is a good day.", '#303052', font=Font)
-    Wallpaper.paste(Goomble, (1676, 4074), mask=alpha_mask)
+    if flag:
+      WallpaperY -= 431
+    Wallpaper.paste(Goomble, (WallpaperX, WallpaperY), mask=alpha_mask)
     Wallpaper.save(f"{GoombleID}Wallpaper.png")
     
-def GenerateWallpaperLegendary(Legendary,color):
+def GenerateWallpaperLegendary(Legendary,color,flag):
     Goomble = Image.open(r"legendary/{}.png".format(Legendary))
     alpha_mask = Goomble.convert('RGBA').split()[-1]
     Wallpaper = Image.new('RGBA', (5400, 9600), color)
     Font = ImageFont.truetype('BubbleboddyNeue-ExtraBold Trial.ttf', 350)
     Draw = ImageDraw.Draw(Wallpaper)
     Draw.text((1084, 5824), "Today is a good day.", '#303052', font=Font)
-    Wallpaper.paste(Goomble, (1676, 4074), mask=alpha_mask)
+    if flag:
+      WallpaperY -= 431
+    Wallpaper.paste(Goomble, (WallpaperX, WallpaperY), mask=alpha_mask)
     Wallpaper.save(f"{Legendary}Wallpaper.png")
     
