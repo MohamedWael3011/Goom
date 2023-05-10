@@ -47,13 +47,13 @@ async def holder(interaction: discord.Interaction):
 @client.tree.command(name="wallpaper", description="Generates a wallpaper with your Goomble!")
 @app_commands.choices(
   color=[ # param name
-    Choice(name="Indian Red", value="#E05C5C"),
-    Choice(name="Yellow Green", value="#BEE18D"),
-    Choice(name="Lemon Yellow", value="#FEF9A8"),
-    Choice(name="Melon", value="#FFA49F"),
-    Choice(name="Baby Blue Eyes", value="#9CC4FE"),
-    Choice(name="Maxiumum Blue", value="#B3A1FB"),
-    Choice(name="Raiah", value="#FFB461"),
+    Choice(name="Red", value="#E05C5C"),
+    Choice(name="Green", value="#BEE18D"),
+    Choice(name="Yellow", value="#FEF9A8"),
+    Choice(name="Pink", value="#FFA49F"),
+    Choice(name="Blue", value="#9CC4FE"),
+    Choice(name="Purple", value="#B3A1FB"),
+    Choice(name="Brown", value="#FFB461"),
   ]
 )
 @commands.check(holder)
