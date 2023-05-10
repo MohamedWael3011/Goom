@@ -96,21 +96,22 @@ def MoveGoomble(GoombleID):
 
 def GenerateWallpaper(GoombleID,color):
     Goomble = Image.open(r"{}.png".format(GoombleID))
+    Goomble =Goomble.resize((3072,3072),resample=Image.NEAREST)
     alpha_mask = Goomble.convert('RGBA').split()[-1]
-    Wallpaper = Image.new('RGBA', (10800, 19200), color)
-    Font = ImageFont.truetype('BubbleboddyNeue-ExtraBold Trial.ttf', 700)
+    Wallpaper = Image.new('RGBA', (8100, 14400), color)
+    Font = ImageFont.truetype('BubbleboddyNeue-ExtraBold Trial.ttf', 525)
     Draw = ImageDraw.Draw(Wallpaper)
-    Draw.text((2169, 10660), "Today is a good day.", '#303052', font=Font)
-    Wallpaper.paste(Goomble, (3352, 6938), mask=alpha_mask)
+    Draw.text((1626, 7995), "Today is a good day.", '#303052', font=Font)
+    Wallpaper.paste(Goomble, (2514, 5203), mask=alpha_mask)
     Wallpaper.save(f"{GoombleID}Wallpaper.png")
     
 def GenerateWallpaperLegendary(Legendary,color):
     Goomble = Image.open(r"legendary/{}.png".format(Legendary))
     alpha_mask = Goomble.convert('RGBA').split()[-1]
-    Wallpaper = Image.new('RGBA', (10800, 19200), color)
-    Font = ImageFont.truetype('BubbleboddyNeue-ExtraBold Trial.ttf', 70)
+    Wallpaper = Image.new('RGBA', (8100, 14400), color)
+    Font = ImageFont.truetype('BubbleboddyNeue-ExtraBold Trial.ttf', 525)
     Draw = ImageDraw.Draw(Wallpaper)
-    Draw.text((2169, 10660), "Today is a good day.", '#303052', font=Font)
-    Wallpaper.paste(Goomble, (3352, 6938), mask=alpha_mask)
+    Draw.text((1626, 7995), "Today is a good day.", '#303052', font=Font)
+    Wallpaper.paste(Goomble, (2514, 5203), mask=alpha_mask)
     Wallpaper.save(f"{Legendary}Wallpaper.png")
     
