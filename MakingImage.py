@@ -96,7 +96,10 @@ def MoveGoomble(GoombleID):
   
 
 
+
 def GenerateWallpaper(GoombleID,color,flag):
+    WallpaperX = 1676
+    WallpaperY = 4074
     Goomble = Image.open(r"{}.png".format(GoombleID))
     Goomble =Goomble.resize((2048,2048),resample=Image.NEAREST)
     alpha_mask = Goomble.convert('RGBA').split()[-1]
@@ -110,6 +113,8 @@ def GenerateWallpaper(GoombleID,color,flag):
     Wallpaper.save(f"{GoombleID}Wallpaper.png")
     
 def GenerateWallpaperLegendary(Legendary,color,flag):
+    WallpaperX = 1676
+    WallpaperY = 4074
     Goomble = Image.open(r"legendary/{}.png".format(Legendary))
     alpha_mask = Goomble.convert('RGBA').split()[-1]
     Wallpaper = Image.new('RGBA', (5400, 9600), color)
