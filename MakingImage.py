@@ -103,6 +103,7 @@ def GenerateWallpaper(GoombleID,color):
     Draw = ImageDraw.Draw(Wallpaper)
     Draw.text((1626, 7995), "Today is a good day.", '#303052', font=Font)
     Wallpaper.paste(Goomble, (2514, 5203), mask=alpha_mask)
+    Wallpaper.resize((1080,1920),resample=Image.NEAREST)
     Wallpaper.save(f"{GoombleID}Wallpaper.png")
     
 def GenerateWallpaperLegendary(Legendary,color):
@@ -113,5 +114,6 @@ def GenerateWallpaperLegendary(Legendary,color):
     Draw = ImageDraw.Draw(Wallpaper)
     Draw.text((1626, 7995), "Today is a good day.", '#303052', font=Font)
     Wallpaper.paste(Goomble, (2514, 5203), mask=alpha_mask)
+    Wallpaper.resize((1080,1920),resample=Image.NEAREST)
     Wallpaper.save(f"{Legendary}Wallpaper.png")
     
