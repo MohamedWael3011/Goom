@@ -29,6 +29,8 @@ def GenerateImage(GoombleID,Traits,meme):  #Will need to add a new argument for 
         if att != "0background":
           if Traits["clothes"] == "sour mummy onesie" and "mouth" in att:
               continue
+          if Traits["mouth"] == "giga beard" and "headwear" in att:
+              continue
           layer = os.path.join(BodyPath,att)
           AttributeName = att[1:]  #Removing the sort number
           if Traits[AttributeName] != 'none':
