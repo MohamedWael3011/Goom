@@ -52,7 +52,7 @@ def GenerateImage(GoombleID,Traits,meme):  #Will need to add a new argument for 
 
     for layer in RenderingTraits:  #Without Background
       LayerImage = Image.open(layer)
-      if meme =="hand" and Traits["flavor"] in layer:
+      if meme =="hand" and Traits["flavor"] == layer:
         if Traits["body"] =="round":
           img_mask = Image.open('maskR.png')
           img_mask = img_mask.convert('L')
