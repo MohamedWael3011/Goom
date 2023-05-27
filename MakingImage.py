@@ -46,13 +46,14 @@ def GenerateImage(GoombleID,Traits,meme):  #Will need to add a new argument for 
             AttributeName = att[1:]  #Removing the sort number
             if Traits[AttributeName] != 'none':
                 AttributePath = os.path.join(layer,Traits[AttributeName]+".png")
+                print(AttributePath)
                 RenderingTraits.append(AttributePath)
 
     TransparentImage = Image.new("RGBA", (4096,4096))
 
     for layer in RenderingTraits:  #Without Background
       LayerImage = Image.open(layer)
-      if meme =="hand" and Traits["flavor"] +".png" == layer:
+      if meme =="hand" and Traits["flavor"] in layer:
         if Traits["body"] =="round":
           img_mask = Image.open('maskR.png')
           img_mask = img_mask.convert('L')
