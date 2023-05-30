@@ -78,12 +78,13 @@ def GenerateMeme(GoombleID,Traits,meme):
   Goomble = Image.open(r"{}.png".format(GoombleID))
   if meme =="gunball" or meme =="hand":
     Goomble = Goomble.crop((600, 600, 2850, 2850))
+  
  
   Goomble =Goomble.resize((2048,2048),resample=Image.NEAREST)
 
     
 
-  if meme == "stonks":
+  if meme == "stonks" or meme == "cock":
     Goomble = Image.alpha_composite(MemeTrait,Goomble)
   else:
     Goomble = Image.alpha_composite(Goomble,MemeTrait)

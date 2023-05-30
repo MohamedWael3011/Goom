@@ -12,7 +12,7 @@ import json
 
 client = commands.Bot(command_prefix='.', intents=intents)
 load_dotenv()
-MemeList = ["hand", "gunball", "stonks","copium"]
+MemeList = ["hand", "gunball", "stonks","copium","cock"]
 WallpaperAddSpaceTraits = ["overgrown", "streamer", "giga beard","dragon","soda pipes","kespin cone"]
 Legendaries = ["rarest goombles of all time", "kespin cone", "powdered peaks", "magic sugar forest", "cavity court", "caramel swamp"]
 def AllMeme():
@@ -118,10 +118,20 @@ async def rename(interaction: discord.Interaction, name: str):
 
 @client.tree.command(name="goomeme",
                      description="Turning your Goomble to a meme.")
+@app_commands.choices(
+  color=[ # param name
+    Choice(name="Red", value="#E05C5C"),
+    Choice(name="Green", value="#BEE18D"),
+    Choice(name="Yellow", value="#FEF9A8"),
+    Choice(name="Pink", value="#FFA49F"),
+    Choice(name="Blue", value="#9CC4FE"),
+    Choice(name="Purple", value="#B3A1FB"),
+    Choice(name="Brown", value="#FFB461"),
+  ]
+)
 @commands.check(holder)
 @app_commands.checks.cooldown(1, 20.0, key=lambda i: (i.user.id))
-async def goomeme(interaction: discord.Interaction, *, url: str, meme: str):
-  meme = meme.lower()
+async def goomeme(interaction: discord.Interaction, *, url: str, meme: Choice[str]):
   if not ("pool.pm/" in url):
     await interaction.response.send_message(
       "<@{}> Please enter a valid url.".format(interaction.user.id),
@@ -130,7 +140,7 @@ async def goomeme(interaction: discord.Interaction, *, url: str, meme: str):
   try:
     await interaction.response.defer(ephemeral=True)
     Traits,GID = await client.loop.run_in_executor(None,GetTraits,url)
-    if meme == "all":
+    if meme.value == "all":
       for meme in MemeList:
           if Traits["flavor"] in Legendaries:
             await interaction.user.send("{} Meme".format(meme),file=discord.File("legendary/{} {}.png".format(meme,Traits["flavor"])))
@@ -153,23 +163,23 @@ async def goomeme(interaction: discord.Interaction, *, url: str, meme: str):
           interaction.user.id))        
     else:
         if Traits["flavor"] in Legendaries:
-           await interaction.user.send("{} Meme".format(meme),file=discord.File("legendary/{} {}.png".format(meme,Traits["flavor"])))  
+           await interaction.user.send("{} Meme".format(meme.value),file=discord.File("legendary/{} {}.png".format(meme.value,Traits["flavor"])))  
         else:
-          await client.loop.run_in_executor(None, GenerateImage, GID,Traits,meme)   
-          if meme == "stonks":
+          await client.loop.run_in_executor(None, GenerateImage, GID,Traits,meme.value)   
+          if meme.value == "stonks":
             await client.loop.run_in_executor(None, MoveGoomble, GID)
             
-          await client.loop.run_in_executor(None, GenerateMeme, GID, Traits, meme)
+          await client.loop.run_in_executor(None, GenerateMeme, GID, Traits, meme.value)
           await asyncio.sleep(2)
           if not os.path.exists("{}.png".format(GID)):
             await interaction.followup.send(
               "<@{}> Someone else just generated on same Goomble, please try again later."
               .format(interaction.user.id))
           else:
-            await interaction.user.send("{} Meme".format(meme),
+            await interaction.user.send("{} Meme".format(meme.value),
                                         file=discord.File("{}.png".format(GID)))
-            if os.path.exists(meme+GID+".png"):
-              os.remove(meme + GID + ".png")
+            if os.path.exists(meme.value+GID+".png"):
+              os.remove(meme.value + GID + ".png")
             if os.path.exists(GID + ".png"):
               os.remove(GID+".png")
         await interaction.followup.send(
