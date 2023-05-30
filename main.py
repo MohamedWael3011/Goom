@@ -119,14 +119,13 @@ async def rename(interaction: discord.Interaction, name: str):
 @client.tree.command(name="goomeme",
                      description="Turning your Goomble to a meme.")
 @app_commands.choices(
-  color=[ # param name
-    Choice(name="Red", value="#E05C5C"),
-    Choice(name="Green", value="#BEE18D"),
-    Choice(name="Yellow", value="#FEF9A8"),
-    Choice(name="Pink", value="#FFA49F"),
-    Choice(name="Blue", value="#9CC4FE"),
-    Choice(name="Purple", value="#B3A1FB"),
-    Choice(name="Brown", value="#FFB461"),
+  meme =[ # param name 
+    Choice(name="Hand", value="hand"),
+    Choice(name="Gunball", value="gunball"),
+    Choice(name="Stonks", value="stonks"),
+    Choice(name="Copium", value="copium"),
+    Choice(name="Cock", value="cock"),
+    Choice(name="All Memes", value="all"),
   ]
 )
 @commands.check(holder)
