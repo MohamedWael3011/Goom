@@ -24,7 +24,7 @@ Crops = {
 def GenerateImage(GoombleID,Traits,meme):  #Will need to add a new argument for choices when provided
     RenderingTraits = []
     BodyPath = "{}".format(Traits["body"])
-    if meme =='normal':
+    if meme =='normal' or "cock":
       for att in sorted(os.listdir(BodyPath)):
         if att != "0background":
           if Traits["clothes"] == "sour mummy onesie" and "mouth" in att:

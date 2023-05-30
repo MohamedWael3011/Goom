@@ -126,6 +126,7 @@ async def rename(interaction: discord.Interaction, name: str):
     Choice(name="Copium", value="copium"),
     Choice(name="Cock", value="cock"),
     Choice(name="All Memes", value="all"),
+         # 
   ]
 )
 @commands.check(holder)
